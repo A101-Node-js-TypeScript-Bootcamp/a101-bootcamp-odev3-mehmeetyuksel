@@ -1,0 +1,18 @@
+{
+  "name": "odev-3",
+  "version": "1.0.0",
+  "description": "a101 bootcamp 3. odev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon index.js"
+  },
+  "author": "Mehmet Yüksel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
