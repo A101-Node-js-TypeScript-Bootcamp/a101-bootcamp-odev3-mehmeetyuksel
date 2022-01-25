@@ -1,12 +1,9 @@
 const express = require("express");
 const app = express();
-
 const route = require("./router/api")
 
 
-// app.use(jwt());
 app.use(express.json());
-
 
 app.use("/api", route)
 

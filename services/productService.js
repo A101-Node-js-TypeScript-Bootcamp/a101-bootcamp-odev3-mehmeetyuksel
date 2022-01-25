@@ -1,12 +1,13 @@
 const AWS = require('aws-sdk');
-
+const dotenv = require('dotenv');
+dotenv.config();
 AWS.config.update({
     region: "us-east-1",
     endpoint: "https://dynamodb.us-east-1.amazonaws.com/",
-    accessKeyId: "AKIAZNYERRQZMOGXPQVR",
-    secretAccessKey: "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"
-  });
-  
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY
+});
+
 let docClient = new AWS.DynamoDB.DocumentClient();
 table = "Products"
 
@@ -14,27 +15,27 @@ table = "Products"
 exports.productAdd = async (params) => {
 
     const value = {
-        TableName : table,
+        TableName: table,
         Item: {
             productId: params.productId,
-            stock : params.stock,
-            productName : params.productName,
-            isDiscount : params.isDiscount,
-            category : {
-                categoryId : params.categoryId,
-                categoryName : params.categoryName
+            stock: params.stock,
+            productName: params.productName,
+            isDiscount: params.isDiscount,
+            category: {
+                categoryId: params.categoryId,
+                categoryName: params.categoryName
             }
-        }    
+        }
     };
 
-try {
-    const data = await docClient.put(value).promise();
-    return {
-       status: true,
-       message: "Product is added",
-       data: data
-   }
-}
+    try {
+        const data = await docClient.put(value).promise();
+        return {
+            status: true,
+            message: "Product is added",
+            data: data
+        }
+    }
     catch (err) {
         return err
     }
@@ -43,80 +44,80 @@ try {
 exports.getAllProducts = async () => {
     var params = {
         TableName: table,
-        Select : "ALL_ATTRIBUTES"
+        Select: "ALL_ATTRIBUTES"
     };
-    
+
     try {
         const data = await docClient.scan(params).promise();
         return data;
     }
-        catch (err) {
-            return err
-        }
-    
+    catch (err) {
+        return err
+    }
+
 }
 
 exports.getProduct = async (id) => {
     var params = {
         TableName: table,
-        Key:{
-            productId : id
+        Key: {
+            productId: id
         }
     };
-   
-  try {
-    const data = await docClient.get(params).promise()
-    return data;
-  }  
-   catch(err) {
-       return err
-   }
+
+    try {
+        const data = await docClient.get(params).promise()
+        return data;
+    }
+    catch (err) {
+        return err
+    }
 }
 
 exports.showDiscounts = async () => {
     var params = {
         TableName: table,
-        Select : "ALL_ATTRIBUTES"
+        Select: "ALL_ATTRIBUTES"
     };
-    
+
     try {
         const data = await docClient.scan(params).promise();
         return data.Items.filter((el) => el.isDiscount === true);
     }
-        catch (err) {
-            return err
-        }
-    
+    catch (err) {
+        return err
+    }
+
 }
 
 exports.deleteProduct = async (id) => {
 
-var params = {
-    TableName:table,
-    Key:{
-        "productId": id
-    },
-    ConditionExpression:"isDiscount = :val",
-    ExpressionAttributeValues: {
-        ":val": false
-    }
-};
+    var params = {
+        TableName: table,
+        Key: {
+            "productId": id
+        },
+        ConditionExpression: "isDiscount = :val",
+        ExpressionAttributeValues: {
+            ":val": false
+        }
+    };
 
-try {
-   await docClient.delete(params).promise()
-   return "Product is deleted successfully!"
-}
-catch(err) {
-    return "Product is not deleted! No product found or has a discount on the product!"
-}
+    try {
+        await docClient.delete(params).promise()
+        return "Product is deleted successfully!"
+    }
+    catch (err) {
+        return "Product is not deleted! No product found or has a discount on the product!"
+    }
 
 
 }
 
 exports.updateProduct = async (params) => {
     var params = {
-        TableName:table,
-        Key:{
+        TableName: table,
+        Key: {
             "productId": params.productId
         },
         ExpressionAttributeNames: {
@@ -124,23 +125,23 @@ exports.updateProduct = async (params) => {
         },
         ConditionExpression: "attribute_exists(#pr)",
         UpdateExpression: "set stock = :s",
-        ExpressionAttributeValues:{
-            ":s":params.stock
+        ExpressionAttributeValues: {
+            ":s": params.stock
         },
-       
-        ReturnValues:"UPDATED_NEW"
+
+        ReturnValues: "UPDATED_NEW"
     };
     try {
-    const data = await docClient.update(params).promise();
-    return {
-        message : "Data is updated!",
-        data: data
-    };
+        const data = await docClient.update(params).promise();
+        return {
+            message: "Data is updated!",
+            data: data
+        };
     }
-    catch(err) {
+    catch (err) {
         return "Updating is failed. Product is not found!"
     }
 }
-    
-    
+
+
 
