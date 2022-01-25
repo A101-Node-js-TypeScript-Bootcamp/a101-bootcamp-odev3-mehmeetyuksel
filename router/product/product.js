@@ -8,7 +8,7 @@ router.get("/discounts", productController.showDiscounts)
 router.get("/", productController.getAllProducts);
 router.post("/", productController.addProduct);
 router.get("/:id", productController.getProduct);
-router.put("/:id", productController.updateProduct);
+router.put("/", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
 
 
