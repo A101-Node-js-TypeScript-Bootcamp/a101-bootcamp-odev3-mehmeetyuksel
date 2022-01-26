@@ -77,12 +77,15 @@ exports.getProduct = async (id) => {
 exports.showDiscounts = async () => {
     var params = {
         TableName: table,
-        Select: "ALL_ATTRIBUTES"
+        FilterExpression: "isDiscount = :isDiscount",
+        ExpressionAttributeValues : {
+            ":isDiscount" : true
+        }
     };
 
     try {
         const data = await docClient.scan(params).promise();
-        return data.Items.filter((el) => el.isDiscount === true);
+        return data;
     }
     catch (err) {
         return err
