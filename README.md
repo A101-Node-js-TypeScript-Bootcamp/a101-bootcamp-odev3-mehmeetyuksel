@@ -1,6 +1,6 @@
 # a101-bootcamp-odev3-mehmeetyuksel
 
-## How to use?
+# How to use API?
 
 ### Adding New Product
 
@@ -88,3 +88,32 @@ That deletes a product according to productId
 
 ```
 That updates the stock number of the selected product with the new value.
+
+
+# SQL & NoSQL
+
+
+### SQL
+SQL ilişkisel veri tabanlarıdır. Veriler bu veritabanlarında tablolarda satırlar sütunlar halinde tutulur. 
+İlişkisel veri tabanlarında bulunan bütün tablolar birbiri ile bağlantılıdır. 
+Tüm verileri tek tabloda tutmayıp hepsini farklı farklı tablolara ayırıp aralarında ilişki kurmamızın sebebi ise veri tekrarını önlemek, daha kolay yönetebilmek ve daha kolay sorgulama yapabilmektir.
+Tablolar arasındaki ilişkiler “Primary Key” yani birincil anahtar ve “Foreign Key” yani yabancı, ikincil anahtarların birbiri ile bağlantısıyla olmaktadır.
+SQL veritabanları dikey olarak ölçeklenebilir. 
+
+En bilindik SQL veritabanları: MySQL, Oracle, MS-SQL, SQLite.
+#### SQL sorgu örneği: 
+
+```
+SELECT ad,soyad FROM musteri
+
+```
+
+### NoSQL 
+
+NoSQL, sabit bir şema gerektirmeyen ve ölçeklemesi kolay ilişkisel olmayan bir veri tabanı sistemidir.
+NoSQL veri tabanları belge tabanlı çalışır ve veriler tablo olarak değil JSON belgesi olarak tutulur. Burada sütuna karşılık anahtar, satıra karşılık ise değer terimleri kullanılmaktadır (key-value). 
+
+En bilindik NoSQL veritabanları
+
+MongoDB, DynamoDB, CouchDB, Redis, Cassandra, HBase
+
