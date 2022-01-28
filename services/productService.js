@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk');
 const dotenv = require('dotenv');
+const { v4: uuidv4 } = require('uuid');
+
 dotenv.config();
 AWS.config.update({
     region: "us-east-1",
@@ -17,7 +19,7 @@ exports.productAdd = async (params) => {
     const value = {
         TableName: table,
         Item: {
-            productId: params.productId,
+            productId: uuidv4(),
             stock: params.stock,
             productName: params.productName,
             isDiscount: params.isDiscount,
