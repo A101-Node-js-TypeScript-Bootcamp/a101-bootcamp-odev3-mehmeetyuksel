@@ -14,7 +14,7 @@ let docClient = new AWS.DynamoDB.DocumentClient();
 table = "Products"
 
 
-exports.productAdd = async (params) => {
+exports.productAdd = async (params) => {   // Adding a product service
 
     const value = {
         TableName: table,
@@ -34,8 +34,7 @@ exports.productAdd = async (params) => {
         const data = await docClient.put(value).promise();
         return {
             status: true,
-            message: "Product is added",
-            data: data
+            message: "Product is added"
         }
     }
     catch (err) {
@@ -43,7 +42,7 @@ exports.productAdd = async (params) => {
     }
 }
 
-exports.getAllProducts = async () => {
+exports.getAllProducts = async () => {   // Getting all products service
     var params = {
         TableName: table,
         Select: "ALL_ATTRIBUTES"
@@ -59,7 +58,7 @@ exports.getAllProducts = async () => {
 
 }
 
-exports.getProduct = async (id) => {
+exports.getProduct = async (id) => {    // Getting a single product service
     var params = {
         TableName: table,
         Key: {
@@ -76,7 +75,7 @@ exports.getProduct = async (id) => {
     }
 }
 
-exports.showDiscounts = async () => {
+exports.showDiscounts = async () => {   // Showing discounts service
     var params = {
         TableName: table,
         FilterExpression: "isDiscount = :isDiscount",
@@ -95,7 +94,7 @@ exports.showDiscounts = async () => {
 
 }
 
-exports.deleteProduct = async (id) => {
+exports.deleteProduct = async (id) => {         // Deleting a product service
 
     var params = {
         TableName: table,
@@ -119,7 +118,7 @@ exports.deleteProduct = async (id) => {
 
 }
 
-exports.updateProduct = async (params) => {
+exports.updateProduct = async (params) => {   // Updating stock service
     var params = {
         TableName: table,
         Key: {

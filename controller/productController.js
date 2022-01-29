@@ -1,10 +1,9 @@
 const Joi = require("joi")
 const productService = require("../services/productService")
 
-exports.addProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {   // Adding Product
 
-    try {
-        const schema = Joi.object({         // istenen validasyon kriterleri
+        const schema = Joi.object({         // validation criterias
             stock: Joi.number()
                 .min(1)
                 .required(),
@@ -20,7 +19,7 @@ exports.addProduct = async (req, res) => {
     
         try {
     
-            const value = await schema.validateAsync({          // validasyon işlemi
+            const value = await schema.validateAsync({          // validate requirements
                
                 stock: req.body.stock,
                 productName: req.body.productName,
@@ -30,24 +29,22 @@ exports.addProduct = async (req, res) => {
     
             });
     
-            const response = await productService.productAdd(value);
+            const response = await productService.productAdd(value);  
             res.status(200).send(response)
     
         }
         catch (err) {
-            res.status(401).send(err)
+            res.status(401).send(err.details[0].message)           
         }
     }
-    catch(err) {
-        res.send(err)
-    }
+   
     
 
-}
 
-exports.getAllProducts = async (req, res) => {
 
-    try {
+exports.getAllProducts = async (req, res) => {   // Getting all products
+
+
         const data = await productService.getAllProducts();
         res.status(200).send({
             message: "All products here!",
@@ -55,69 +52,32 @@ exports.getAllProducts = async (req, res) => {
         })
     }
 
-    catch (err) {
-        res.status(401).send({
-            message: err
-        })
-    }
+exports.getProduct = async (req, res) => {  // Getting single product by id
 
-}
-
-exports.getProduct = async (req, res) => {
-
-    try {
         const data = await productService.getProduct(req.params.id);
         res.status(200).send({
             message: "Determined product is here!",
             data: data
         })
-    }
-    catch (err) {
-        res.status(401).send(err);
-    }
-
 }
 
-exports.updateProduct = async (req, res) => {
-
-    try {
+exports.updateProduct = async (req, res) => {   // Updating stock of a product
         const data = await productService.updateProduct(req.body);
         res.status(200).send(data)
-    }
-    catch (err) {
-        res.send(401).send(err);
-    }
-
 }
 
 
-exports.deleteProduct = async (req, res) => {
-    try {
+exports.deleteProduct = async (req, res) => {   // Deleting a product
         const data = await productService.deleteProduct(req.params.id);
-        res.status(200).send({
-            message: data
-        })
-    }
-    catch (err) {
-        res.status(401).send(err)
-    }
+        res.status(200).send(data)
 }
 
-exports.showDiscounts = async (req, res) => {
-
-    try {
+exports.showDiscounts = async (req, res) => {   // Showing products with discount
         const data = await productService.showDiscounts();
         res.status(200).send({
             message: "Discounts are shown here!",
             data: data
         })
-    }
-
-    catch (err) {
-        res.status(401).send(err);
-    }
-
-
 }
 
 
